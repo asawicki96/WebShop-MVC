@@ -14,12 +14,12 @@
             <table class="table-borderless" style="margin:30px auto auto auto;">
                 <tr>
                     <td>
-                        @Html.LabelFor(o => o.Email, "Email")
+                        @Html.LabelFor(o => o.Username, "Username")
                     </td>
                     <td>
-                        @Html.TextBoxFor(o => o.Email)
+                        @Html.TextBoxFor(o => o.Username)
                         <div class="login-validation-message">
-                            @Html.ValidationMessageFor(o => o.Email)
+                            @Html.ValidationMessageFor(o => o.Username)
                         </div>
                     </td>
                 </tr>

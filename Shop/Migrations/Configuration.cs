@@ -1,5 +1,6 @@
 ﻿namespace Shop.Migrations
 {
+    using Microsoft.AspNetCore.Identity;
     using Shop.DAL;
     using System;
     using System.Data.Entity;
@@ -12,6 +13,7 @@
         {
             AutomaticMigrationsEnabled = false;
             ContextKey = "Shop.DAL.WebShopContext";
+           
         }
 
         protected override void Seed(Shop.DAL.WebShopContext context)
@@ -22,5 +24,6 @@
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
         }
+
     }
 }

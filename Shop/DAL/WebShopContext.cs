@@ -18,6 +18,7 @@ namespace Shop.DAL
         static WebShopContext()
         {
             Database.SetInitializer<WebShopContext>(new WebShopInitialiser());
+            Database.SetInitializer<WebShopContext>(new IdentityInistialiser());
         }
 
         public DbSet<Product> Products { get; set; }
@@ -29,6 +30,7 @@ namespace Shop.DAL
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
         }
     }
 }

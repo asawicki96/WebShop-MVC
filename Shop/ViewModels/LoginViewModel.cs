@@ -8,9 +8,8 @@ namespace Shop.ViewModels
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Please enter Your e-mail")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Required(ErrorMessage = "Please enter Your Username")]
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Please enter Your password")]
         [DataType(DataType.Password)]

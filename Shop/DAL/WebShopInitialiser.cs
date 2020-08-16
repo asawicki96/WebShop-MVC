@@ -1,4 +1,5 @@
-﻿using Shop.Migrations;
+﻿using Microsoft.AspNetCore.Identity;
+using Shop.Migrations;
 using Shop.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace Shop.DAL
 {
     public class WebShopInitialiser : MigrateDatabaseToLatestVersion<WebShopContext, Configuration>
     {
-
         public static void SeedWebShopData(WebShopContext context)
         {
             var categories = new List<Category>

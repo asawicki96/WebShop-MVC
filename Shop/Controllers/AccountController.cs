@@ -4,20 +4,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Shop.Controllers
 {
     public class AccountController : Controller
     {
+        private UserManager<IdentityUser>  UserMgr { get; }
+        private SignInManager<IdentityUser> SignInMgr { get; }
+
+        public AccountController(UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager)
+        {
+            UserMgr = userManager;
+            SignInMgr = signInManager;
+        }
+
+
         public IActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if(!ModelState.IsValid)
             {
@@ -25,7 +38,13 @@ namespace Shop.Controllers
             }
             else
             {
-                return RedirectToAction("List", "Products");
+                var result = await SignInMgr.PasswordSignInAsync(model.Username, model.Password, false, false);
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("List", "Products");
+                }
+                else return View(model);
+
             }
         }
     }
