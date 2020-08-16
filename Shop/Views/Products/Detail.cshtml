@@ -1,0 +1,20 @@
+﻿@model Shop.ViewModels.ProductDetailViewModel
+@using Shop.Infrastructrue
+    <div class="text-center">
+        <div class="row">
+            @await Html.PartialAsync("_CategoriesMenu", Model.Categories)
+            <div class="col-9">
+                <img style="width:auto; height: 400px;" class="product-detail-img" src="@Url.ProductImagesPath(Model.Product.Image)" alt="Product Image" />
+                <h4>@Model.Product.Name</h4>
+                <b><p>Price: @Model.Product.Price PLN </p></b>
+                <p>@Model.Product.Description</p>
+                <div class="row">
+                    <div class="col">
+                        <div class="text-center">
+                            <button class="btn-success btn-lg" onclick="location.href='@Url.Action("AddToCart", "Cart", new { id = Model.Product.ProductId })'">Buy now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 

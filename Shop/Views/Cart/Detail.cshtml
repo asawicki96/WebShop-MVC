@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="cart">
+            <h1>Your cart:</h1>
+            @if (ViewBag.cart == null || ViewBag.cart.Count == 0)
+            {
+                <h2>is empty :(</h2>
+                <button class="btn-success btn-lg" onclick="location.href='@Url.Action("List", "Products")';return false;">Continue shopping</button>
+            }
+            else
+            {
+                <table class="table table-striped" id="cart_table">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in ViewBag.cart)
+                        {
+                            <tr>
+                                <td>
+                                    <b>@product.Product.Name</b>
+                                </td>
+                                <td>
+                                    @product.Product.Price PLN
+                                </td>
+                                <td>
+                                    <button class="btn-danger btn-sm" onclick="window.location='@Url.Action("RemoveItem", "Cart", new { id = product.Product.ProductId })'">Remove</button>
+                                </td>
+                            </tr>
+                        }
+                        <tr class="table-info">
+                            <td colspan="1">
+                                <b>Total</b>
+                            </td>
+                            <td colspan="2">
+                                <b>@ViewBag.total PLN</b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn-success btn-lg" onclick="location.href='@Url.Action("List", "Products")';return false;">Continue shopping</button>
+                <button class="btn-success btn-lg" onclick="location.href='@Url.Action("Cash", "Order")';return false;">Go to cash</button>
+
+            }
+        </div>
+    </div>
+</div>
+

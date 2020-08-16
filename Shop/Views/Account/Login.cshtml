@@ -1,0 +1,48 @@
+﻿@model Shop.ViewModels.LoginViewModel
+@{ 
+    ViewBag.Title = "Login";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="text-center">
+            <h1>Login Form</h1>
+        </div>
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <table class="table-borderless" style="margin:30px auto auto auto;">
+                <tr>
+                    <td>
+                        @Html.LabelFor(o => o.Email, "Email")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(o => o.Email)
+                        <div class="login-validation-message">
+                            @Html.ValidationMessageFor(o => o.Email)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(o => o.Password, "Password")
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(o => o.Password)
+                        <div class="login-validation-message">
+                            @Html.ValidationMessageFor(o => o.Password)
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div class="text-center">
+                            <input type="submit" value="Login" class="btn-success btn-sm" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</div>

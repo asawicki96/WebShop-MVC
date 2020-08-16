@@ -1,0 +1,29 @@
+﻿@model  Shop.ViewModels.HomeViewModel
+@using PagedList.Mvc
+
+@{ 
+    ViewBag.Title = "List";
+}
+     @if (@ViewBag.categoryName != null) { <h1 class="text-center">Category: "@ViewBag.categoryName"</h1> }
+     @if (@ViewBag.searchQuery != null) { <h1 class="text-center">Results for query: "@ViewBag.searchQuery"</h1> }
+    <div class="row">
+        <div class="col-3">
+            @await Html.PartialAsync("_CategoriesMenu", Model.Categories)
+        </div>
+        <div class="col-9">
+            <h3>Products</h3>
+            <br />
+            <div class="row">
+                <form id="search-form" action="@Url.Action("List", "Products")" method="get">
+                    <input id="search-filter"
+                           type="search"
+                           name="searchQuery"
+                           placeholder="Search" />
+                    <input type="submit" value="Go" />
+                </form>
+            </div>
+            <div class="row">
+                @await Html.PartialAsync("_ProductsList", Model.Newests)
+            </div>
+        </div>
+    </div>

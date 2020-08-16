@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Shop.Models.Category>
+@using Shop.Infrastructrue
+
+<div class="col">
+    <h3>Categories:</h3>
+    <br />
+    <ul class="categories">
+        @foreach (var category in Model)
+        {
+            <li class="category">
+                <a href="@Url.Action("List", "Products", new { categoryName = category.Name.ToLower() })">
+                    <div>
+                        <img src="@Url.CategoryIconsPath(category.Icon)" class="center" width="45" height="40" alt="Category icon" />
+                        @category.Name
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
