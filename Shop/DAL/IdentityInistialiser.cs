@@ -26,7 +26,7 @@ namespace Shop.DAL
                     userManager.AddToRoleAsync(user, "Administrator").Wait();
                 }
                 else
-                    throw new Exception("NIe dodano usera");
+                    throw new Exception("Nie dodano usera");
             }
         }
 

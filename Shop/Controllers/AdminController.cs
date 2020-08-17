@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Shop.Controllers
 {
-    public class AccountController : Controller
+    public class AdminController : Controller
     {
         private UserManager<IdentityUser>  UserMgr { get; }
         private SignInManager<IdentityUser> SignInMgr { get; }
 
-        public AccountController(UserManager<IdentityUser> userManager,
+        public AdminController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager)
         {
             UserMgr = userManager;
