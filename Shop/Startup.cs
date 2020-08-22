@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +12,7 @@ using System.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Shop.DAL;
 using Microsoft.EntityFrameworkCore;
+using Shop.Data;
 
 namespace Shop
 {
@@ -38,7 +39,7 @@ namespace Shop
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("IdentityWebShopContext"));
             });
-           
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(3600);
@@ -79,6 +80,10 @@ namespace Shop
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+            services.AddDbContext<ShopContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ShopContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

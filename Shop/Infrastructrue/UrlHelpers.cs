@@ -21,8 +21,15 @@ namespace Shop.Infrastructrue
         public static string ProductImagesPath(this IUrlHelper helper, string productImageName)
         {
             var ProductImagesFolder = AppConfig.ProductImagesRelativePath;
-            var path = Path.Combine(ProductImagesFolder, productImageName);
+            var path = Path.Combine(ProductImagesFolder, "no_data.png");
+            
+            if (productImageName != null)
+            {
+                path = Path.Combine(ProductImagesFolder, productImageName);
+            }
+        
             var relativePath = helper.Content(path);
+
 
             return relativePath;
         }

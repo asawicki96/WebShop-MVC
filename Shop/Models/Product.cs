@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace Shop.Models
 
         [JsonIgnore]
         public virtual Category Category { get; set; }
+        public virtual IFormFile File { get; set; }
 
     }
 }

@@ -4,6 +4,10 @@
       "type": "mssql.local",
       "connectionId": "WebShopContext",
       "secretStore": "LocalSecretsFile"
+    },
+    "mssql2": {
+      "type": "mssql.local",
+      "connectionId": "ShopContext"
     }
   }
 }

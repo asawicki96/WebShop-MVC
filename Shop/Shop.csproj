@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Content\Images\**" />
+    <Content Remove="wwwroot\Content\Images\**" />
+    <EmbeddedResource Remove="wwwroot\Content\Images\**" />
+    <None Remove="wwwroot\Content\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
@@ -23,10 +30,6 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Content\Images\" />
   </ItemGroup>
 
   <ItemGroup>

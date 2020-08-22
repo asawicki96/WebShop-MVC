@@ -8,7 +8,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Shop.DAL
 {
-    public class WebShopContext: DbContext
+    public class WebShopContext : DbContext
     {
         public WebShopContext(): base("WebShopContext")
         {

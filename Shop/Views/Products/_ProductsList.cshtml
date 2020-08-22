@@ -7,11 +7,13 @@
         @foreach (var product in Model)
         {
             <div class="col-4">
-                <div class="product">
+                <div class="product" style="height: 330px">
                     <a href="@Url.Action("Detail", "Products", new { id = product.ProductId })">
-                        <img src="@Url.ProductImagesPath(product.Image)" class="center" width="200" height="200" alt="Poduct image" />
-                        <span class="product-list-name">@product.Name</span>
-                        <span class="product-list-name">@product.Price PLN </span>
+                        <img src="@Url.ProductImagesPath(product.Image)" style="margin-top: 10px" class="center" width="200" alt="Poduct image" />
+                        <div style="position: absolute; bottom: 15px; width: 85%">
+                            <span class="product-list-name">@product.Name</span>
+                            <span class="product-list-name">@product.Price PLN </span>
+                        </div>
                     </a>
                 </div>
             </div>

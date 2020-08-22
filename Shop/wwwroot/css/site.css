@@ -87,14 +87,16 @@ footer {
 
 .product img {
     border-radius: 20px;
+    padding-top: 10px;
 }
+
+
 
 .product-list-name {
     padding-top: 5px;
     padding-bottom: 10px;
     display: block;
     margin: auto;
-    margin-top: 10px;
 }
 
 .cart-container.thead {
