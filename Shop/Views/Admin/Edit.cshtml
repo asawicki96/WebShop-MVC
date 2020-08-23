@@ -1,0 +1,21 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityUser
+<h1>Edit account</h1>
+<a asp-action="Dashboard" class="btn btn-secondary">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="UserName">UserName</label>
+        <input asp-for="UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="old_password">Old password</label>
+        <input name="old_password" class="form-control" />
+        <p style="color:red;">@ViewBag.error</p>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input name="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
