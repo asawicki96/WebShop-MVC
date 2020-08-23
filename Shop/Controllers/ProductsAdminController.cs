@@ -62,7 +62,7 @@ namespace Shop.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (product.File.Length > 0)
+                if (product.File != null && product.File.Length > 0)
                 {
                     
                     var fileName = $@"{Guid.NewGuid()}.png"; ;
@@ -96,6 +96,7 @@ namespace Shop.Controllers
             }
 
             var product = await db.Products.FindAsync(id);
+            
             if (product == null)
             {
                 return NotFound();
@@ -113,14 +114,12 @@ namespace Shop.Controllers
         {
             if (id != product.ProductId)
             {
-                var fileName = product.Image;
-                product.File = (IFormFile)product.File.OpenReadStream();
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                var old_product = db.Products.Find(id = product.ProductId);
+                var old_product = db.Products.Find(id);
                 product.CreatedAt = old_product.CreatedAt;
 
                 if (product.File != null && product.File.Length > 0)
@@ -130,6 +129,7 @@ namespace Shop.Controllers
 
                     var filePath = Path.Combine("wwwroot/Content/Products/", fileName);
                     product.Image = fileName;
+
                     using (var stream = System.IO.File.Create(filePath))
                     {
                         await product.File.CopyToAsync(stream);
@@ -187,6 +187,13 @@ namespace Shop.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await db.Products.FindAsync(id);
+            var fileName = product.Image;
+            if (fileName != null)
+            {
+                var filePath = Path.Combine("wwwroot/Content/Products/", fileName);
+                System.IO.File.Delete(filePath);
+            }
+            
             db.Products.Remove(product);
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
