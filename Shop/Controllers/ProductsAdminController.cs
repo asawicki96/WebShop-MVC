@@ -13,9 +13,11 @@ using System.Net.Http.Headers;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using Shop.Infrastructrue;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Shop.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class ProductsAdminController : Controller
     {
         private readonly WebShopContext db = new WebShopContext();
@@ -125,7 +127,7 @@ namespace Shop.Controllers
                 if (product.File != null && product.File.Length > 0)
                 {
 
-                    var fileName = $@"{Guid.NewGuid()}.png"; ;
+                    var fileName = old_product.Image;
 
                     var filePath = Path.Combine("wwwroot/Content/Products/", fileName);
                     product.Image = fileName;
@@ -188,6 +190,7 @@ namespace Shop.Controllers
         {
             var product = await db.Products.FindAsync(id);
             var fileName = product.Image;
+
             if (fileName != null)
             {
                 var filePath = Path.Combine("wwwroot/Content/Products/", fileName);

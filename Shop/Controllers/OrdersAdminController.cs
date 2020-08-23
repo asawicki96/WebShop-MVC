@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop.DAL;
 using Shop.Models;
 
+
 namespace Shop.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class OrdersAdminController : Controller
     {
         private readonly WebShopContext db = new WebShopContext();
@@ -23,15 +26,18 @@ namespace Shop.Controllers
         }
 
         // GET: OrdersAdmin/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var order = await db.Orders
-                .FirstOrDefaultAsync(m => m.OrderId == id);
+            var order = db.Orders
+                .FirstOrDefault(m => m.OrderId == id);
+            var items = db.Items.Where(i => i.OrderId == order.OrderId);
+            order.Items = items.ToList();
+
             if (order == null)
             {
                 return NotFound();
@@ -55,6 +61,7 @@ namespace Shop.Controllers
         {
             if (ModelState.IsValid)
             {
+                order.CreatedAt = DateTime.Now;
                 db.Orders.Add(order);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -92,6 +99,8 @@ namespace Shop.Controllers
 
             if (ModelState.IsValid)
             {
+                var old_order = db.Orders.Find(id);
+                order.CreatedAt = old_order.CreatedAt;
                 try
                 {
                     db.Orders.AddOrUpdate(order);
@@ -113,16 +122,40 @@ namespace Shop.Controllers
             return View(order);
         }
 
-        // GET: OrdersAdmin/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [Route("OrdersAdmin/DelereOrderItem/{id}")]
+        public async Task<IActionResult> DeleteOrderItem(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var order = await db.Orders
-                .FirstOrDefaultAsync(m => m.OrderId == id);
+            var orderItem = db.Items.Find(id);
+            if (orderItem == null)
+            {
+                return NotFound();
+            }
+
+            var order = db.Orders.Find(orderItem.OrderId);
+            order.Price = order.Price - orderItem.TotalPrice;
+            db.Orders.AddOrUpdate(order);
+
+            db.Items.Remove(orderItem);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = orderItem.OrderId });
+
+        }
+
+        // GET: OrdersAdmin/Delete/5
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = db.Orders
+                .FirstOrDefault(m => m.OrderId == id);
             if (order == null)
             {
                 return NotFound();
@@ -134,11 +167,19 @@ namespace Shop.Controllers
         // POST: OrdersAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var order = await db.Orders.FindAsync(id);
+            var order = db.Orders.Find(id);
             db.Orders.Remove(order);
-            await db.SaveChangesAsync();
+
+            var orderItems = db.Items.Where(i => i.OrderId == order.OrderId).ToList();
+
+            foreach(OrderItem item in orderItems)
+            {
+                db.Items.Remove(item);
+            }
+
+            db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

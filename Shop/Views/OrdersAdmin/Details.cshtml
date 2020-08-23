@@ -73,6 +73,44 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.OrderId">Edit</a> |
+    <h4>Order items</h4>
+    <hr />
+    <table class="table table-striped" id="cart_table">
+        <thead class="thead">
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OrderItem item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        <b>@item.Product.Name</b>
+                    </td>
+                    <td>
+                        @item.Product.Price PLN
+                    </td>
+                    <td>
+                        <button onclick="window.location='@Url.Action("DeleteOrderItem", "OrdersAdmin", new { id = item.OrderItemId})'"class="btn-danger btn-sm" >Remove</button>
+                    </td>
+                </tr>
+            }
+            <tr class="table-info">
+                <td colspan="1">
+                    <b>Total</b>
+                </td>
+                <td colspan="2">
+                    <b>@Model.Price PLN</b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Add">Add OrderItem |</a>
     <a asp-action="Index">Back to List</a>
 </div>

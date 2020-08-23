@@ -9,10 +9,13 @@ using System.Data.Entity;
 using Shop.DAL;
 using Shop.Models;
 using System.Data.Entity.Infrastructure;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Shop.Controllers
 {
-    public class CategoriesController : Controller
+    [Authorize(Roles = "Administrator")]
+    public class CategoriesAdminController : Controller
     {
         private readonly WebShopContext db = new WebShopContext();
 
@@ -51,10 +54,23 @@ namespace Shop.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,Name,Description,Icon")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryId,Name,Description,IconFile")] Category category)
         {
             if (ModelState.IsValid)
             {
+                if (category.IconFile != null && category.IconFile.Length > 0)
+                {
+
+                    var fileName = $@"{Guid.NewGuid()}.png"; ;
+
+                    var filePath = Path.Combine("wwwroot/Content/Categories/", fileName);
+                    category.Icon = fileName;
+
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await category.IconFile.CopyToAsync(stream);
+                    }
+                }
                 db.Categories.Add(category);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -83,7 +99,7 @@ namespace Shop.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Name,Description,Icon")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Name,Description,IconFile")] Category category)
         {
             if (id != category.CategoryId)
             {
@@ -92,6 +108,24 @@ namespace Shop.Controllers
 
             if (ModelState.IsValid)
             {
+                var old_category = db.Categories.Find(id);
+                if (category.IconFile != null && category.IconFile.Length > 0)
+                {
+                    var fileName = old_category.Icon;
+
+                    var filePath = Path.Combine("wwwroot/Content/Categories/", fileName);
+                    category.Icon = fileName;
+
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await category.IconFile.CopyToAsync(stream);
+                    }
+                }
+                else
+                {
+                    category.Icon = old_category.Icon;
+                }
+
                 try
                 {
                     db.Categories.AddOrUpdate(category);
@@ -137,6 +171,14 @@ namespace Shop.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var category = await db.Categories.FindAsync(id);
+            var fileName = category.Icon;
+
+            if (fileName != null)
+            {
+                var filePath = Path.Combine("wwwroot/Content/Categories/", fileName);
+                System.IO.File.Delete(filePath);
+            }
+
             db.Categories.Remove(category);
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

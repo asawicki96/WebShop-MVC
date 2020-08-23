@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Shop.DAL;
 using Microsoft.EntityFrameworkCore;
-using Shop.Data;
 
 namespace Shop
 {
@@ -76,13 +70,10 @@ namespace Shop
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.LoginPath = "/Admin/Login";
+                options.AccessDeniedPath = "/Admin/Login";
                 options.SlidingExpiration = true;
             });
-
-            services.AddDbContext<ShopContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ShopContext")));
 
         }
 
@@ -116,6 +107,10 @@ namespace Shop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Products}/{action=List}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "admin",
+                    pattern: "admin/",
+                    defaults: new { controller = "Admin", action = "Login" });
             });
         }
     }

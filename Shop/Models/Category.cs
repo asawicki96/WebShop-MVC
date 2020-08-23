@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -17,6 +18,7 @@ namespace Shop.Models
 
         [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
+        public virtual IFormFile IconFile { get; set; }
 
     }
 }

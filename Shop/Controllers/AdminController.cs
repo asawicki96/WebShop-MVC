@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Shop.Controllers
 {
@@ -21,15 +22,35 @@ namespace Shop.Controllers
         }
 
 
+
         public IActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Admin");
+            }
+            
+        }
 
-            return View();
+       
+        public async Task<IActionResult> Logout()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await SignInMgr.SignOutAsync();
+            }
+
+            return RedirectToAction("List", "Products");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if(!ModelState.IsValid)
@@ -41,11 +62,17 @@ namespace Shop.Controllers
                 var result = await SignInMgr.PasswordSignInAsync(model.Username, model.Password, false, false);
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("List", "Products");
+                    return RedirectToAction("Dashboard", "Admin");
                 }
                 else return View(model);
 
             }
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Dashboard()
+        {
+            return View();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Shop.Models
         public DateTime CreatedAt { get; set; }
         public State State { get; set; }
         public decimal Price { get; set; }
-        List<OrderItem> Items { get; set; }
+        public List<OrderItem> Items { get; set; }
     }
 
     public enum State
