@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.DAL;
 using Shop.Models;
 using Shop.ViewModels;
+using Shop.Infrastructrue;
+using System.Data.Entity;
 
 namespace Shop.Controllers
 {
@@ -17,9 +19,9 @@ namespace Shop.Controllers
             return View();
         }
 
-        public IActionResult List(string? categoryName, string? searchQuery, int? page)
+        public IActionResult List(string? categoryName, string? searchQuery, int? pageNumber)
         {
-
+            int pageSize = 6;
             var categories = db.Categories.ToList();
             var viewModel = new HomeViewModel 
             {
@@ -29,25 +31,23 @@ namespace Shop.Controllers
             if (categoryName != null)
             {
                 var category = db.Categories.Include("Products").Where(c => c.Name.ToUpper() == categoryName.ToUpper()).Single();
-                var products = category.Products.ToList().OrderByDescending(p => p.CreatedAt);
-                viewModel.Newests = products;
+                var products = category.Products.ToList().OrderByDescending(p => p.CreatedAt).AsQueryable();
+                viewModel.Newests = PaginatedList<Product>.Create(products.AsNoTracking(), pageNumber ?? 1, pageSize);
                 ViewBag.categoryName = categoryName.ToUpper();
             }
             else
             {
-                var products = db.Products.Where(p => p.IsActive == true).OrderByDescending(p => p.CreatedAt).Take(9).ToList();
-                viewModel.Newests = products;
+                var products = db.Products.Where(p => p.IsActive == true).OrderByDescending(p => p.CreatedAt).Take(9);
+                viewModel.Newests = PaginatedList<Product>.Create(products.AsNoTracking(), pageNumber ?? 1, pageSize);
             }
             
 
             if (searchQuery != null)
             {
-                var products = this.db.Products.Where(p => p.Name.ToLower().Contains(searchQuery.ToLower()));
-                viewModel.Newests = products;
+                var products = db.Products.Where(p => p.Name.ToLower().Contains(searchQuery.ToLower())).OrderByDescending(p => p.CreatedAt);
+                viewModel.Newests = PaginatedList<Product>.Create(products.AsNoTracking(), pageNumber ?? 1, pageSize);
                 ViewBag.searchQuery = searchQuery;
             }
-            
-
             return View(viewModel);
         }
 

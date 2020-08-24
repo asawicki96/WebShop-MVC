@@ -68,9 +68,6 @@ footer {
     font-family: 'Mukta', sans-serif;
     border-radius: 30px;
     text-align: center;
-}
-
-.product a {
     color: black;
 }
 
@@ -81,16 +78,15 @@ footer {
     transition-duration: 0.4s;
 }
 
-.product a:hover {
+a:hover {
     text-decoration: none;
+    color: black;
 }
 
 .product img {
     border-radius: 20px;
     padding-top: 10px;
 }
-
-
 
 .product-list-name {
     padding-top: 5px;

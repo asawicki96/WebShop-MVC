@@ -60,7 +60,7 @@ namespace Shop.DAL
             {
                 new Product()
                 {
-                    ProductId = 1,
+                    ProductId = 2,
                     Name = "Gloves Everlast XL",
                     CategoryId = 1,
                     Description = "Gloves description",
@@ -71,7 +71,7 @@ namespace Shop.DAL
                 },
                 new Product()
                 {
-                    ProductId = 2,
+                    ProductId = 3,
                     Name = "T-shirt Everlast XL",
                     CategoryId = 1,
                     Description = "T-shirt description",
@@ -82,7 +82,7 @@ namespace Shop.DAL
                 },
                 new Product()
                 {
-                    ProductId = 3,
+                    ProductId = 4,
                     Name = "Adidas trousers",
                     CategoryId = 1,
                     Description = "trousers description",
@@ -93,7 +93,7 @@ namespace Shop.DAL
                 },
                 new Product()
                 {
-                    ProductId = 4,
+                    ProductId = 5,
                     Name = "Mi Band",
                     CategoryId = 1,
                     Description = "band description",

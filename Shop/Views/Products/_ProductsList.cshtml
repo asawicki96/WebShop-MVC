@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Shop.Models.Product>
+﻿@model PaginatedList<Product>
 @using Shop.Infrastructrue
 
 
@@ -7,16 +7,41 @@
         @foreach (var product in Model)
         {
             <div class="col-4">
-                <div class="product" style="height: 330px">
-                    <a href="@Url.Action("Detail", "Products", new { id = product.ProductId })">
-                        <img src="@Url.ProductImagesPath(product.Image)" style="margin-top: 10px" class="center" width="200" alt="Poduct image" />
+                <a class="product-card" href="@Url.Action("Detail", "Products", new { id = product.ProductId })">
+                    <div class="product" style="height: 330px;">
+                        <img src="@Url.ProductImagesPath(product.Image)" style="margin-top: 15px;" class="center" width="200" alt="Poduct image" />
                         <div style="position: absolute; bottom: 15px; width: 85%">
-                            <span class="product-list-name">@product.Name</span>
-                            <span class="product-list-name">@product.Price PLN </span>
+                            <span style="color:black;" class="product-list-name">@product.Name</span>
+                            <span style="color:black;" class="product-list-name">@product.Price PLN </span>
                         </div>
+                    </div>
+                </a>
+            </div>
+        }
+        </div>
+        @if (Model != null && Model.Count() > 0 )
+        { 
+            <div class="row">
+
+                <div class="col">
+                    @{ var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.HasNextPage ? "disabled" : ""; }
+
+                    <a asp-action="List"
+                       asp-route-categoryName ="@ViewBag.categoryName"
+                       asp-route-searchQuery ="@ViewBag.searchQuery"
+                       asp-route-pageNumber="@(Model.PageIndex - 1)"
+                       class="btn btn-default @prevDisabled">
+                        Previous
+                    </a>
+                    <a asp-action="List"
+                       asp-route-categoryName ="@ViewBag.categoryName"
+                       asp-route-searchQuery ="@ViewBag.searchQuery"
+                       asp-route-pageNumber="@(Model.PageIndex + 1)"
+                       class="btn btn-default @nextDisabled">
+                        Next
                     </a>
                 </div>
             </div>
         }
-    </div>
 </div>
