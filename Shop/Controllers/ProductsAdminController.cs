@@ -23,10 +23,12 @@ namespace Shop.Controllers
         private readonly WebShopContext db = new WebShopContext();
 
         // GET: ProductsAdmin
-        public IActionResult Index()
+        public IActionResult Index(int? pageNumber)
         {
-            var shopContext = db.Products.Include(p => p.Category);
-            return View(shopContext.ToList());
+            var pageSize = 10;
+            var shopContext = db.Products.Include(p => p.Category).OrderByDescending(p => p.CreatedAt);
+            ViewBag.model = new Product();
+            return View(PaginatedList<Product>.Create(shopContext.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: ProductsAdmin/Details/5

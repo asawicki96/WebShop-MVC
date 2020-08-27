@@ -111,6 +111,7 @@
 </div>
 
 <div>
-    <a asp-action="Add">Add OrderItem |</a>
+    <a asp-action="AddOrderItem"
+       asp-route-orderId="@Model.OrderId">Add OrderItem |</a>
     <a asp-action="Index">Back to List</a>
 </div>

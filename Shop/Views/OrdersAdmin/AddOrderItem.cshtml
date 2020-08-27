@@ -4,11 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Products</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Add product to order</h1>
 <table class="table">
     <thead>
         <tr>
@@ -62,9 +58,10 @@
                     @Html.DisplayFor(modelItem => item.Category.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                    <a asp-action="Add" 
+                       asp-route-orderId="@ViewBag.orderId"
+                       asp-route-productId="@item.ProductId"
+                       >Add</a>
                 </td>
             </tr>
         }
@@ -72,21 +69,21 @@
 </table>
 @if (Model != null && Model.Count() > 0)
 {
-<div class="row">
+    <div class="row">
 
-    <div class="col">
-        @{ var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-            var nextDisabled = !Model.HasNextPage ? "disabled" : ""; }
+        <div class="col">
+            @{ var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : ""; }
 
-        <a asp-action="List"
-           asp-route-pageNumber="@(Model.PageIndex - 1)"
-           class="btn btn-default @prevDisabled">
-            Previous
-        </a>
-        <a asp-action="List"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
-           class="btn btn-default @nextDisabled">
-            Next
-        </a>
-    </div>
-</div>}
+            <a asp-action="List"
+               asp-route-pageNumber="@(Model.PageIndex - 1)"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            <a asp-action="List"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+    </div>}

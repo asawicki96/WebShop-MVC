@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop.DAL;
+using Shop.Infrastructrue;
 using Shop.Models;
 
 
@@ -20,9 +21,11 @@ namespace Shop.Controllers
 
 
         // GET: OrdersAdmin
-        public IActionResult Index()
+        public IActionResult Index(int? pageNumber)
         {
-            return View(db.Orders.ToList());
+            var pageSize = 10;
+            var orders = db.Orders.OrderByDescending(o => o.CreatedAt);
+            return View(PaginatedList<Order>.Create(orders.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: OrdersAdmin/Details/5
@@ -45,6 +48,39 @@ namespace Shop.Controllers
 
             return View(order);
         }
+
+
+        public IActionResult AddOrderItem(int? pageNumber, int orderId)
+        {
+            ViewBag.orderId = orderId;
+            var pageSize = 10;
+            var products = db.Products.OrderByDescending(p => p.CreatedAt);
+            return View(PaginatedList<Product>.Create(products.AsNoTracking(), pageNumber ?? 1, pageSize));
+        }
+
+        public IActionResult Add(int orderId, int productId)
+        {
+            var product = db.Products.Find(productId);
+            var order = db.Orders.Find(orderId);
+
+            if (product == null || order == null)
+                return RedirectToAction("AddOrderItem", new { orderId = orderId });
+
+            OrderItem item = new OrderItem()
+            {
+                OrderId = orderId,
+                ProductId = productId,
+                TotalPrice = product.Price
+            };
+
+            db.Items.Add(item);
+
+            order.Price = order.Price + item.TotalPrice;
+            db.Orders.AddOrUpdate(order);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = orderId });
+        }
+
 
         // GET: OrdersAdmin/Create
         public IActionResult Create()

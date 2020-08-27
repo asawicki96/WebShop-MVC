@@ -53,8 +53,6 @@ namespace Shop.Controllers
 
         public IActionResult Detail(int id)
         {
-            var product = db.Products.Find(id);
-            var categories = db.Categories.ToList();
             var viewModel = new ProductDetailViewModel
             {
                 Product = db.Products.Find(id),
