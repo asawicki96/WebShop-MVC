@@ -30,7 +30,8 @@ namespace Shop.Models
         public string Comment { get; set; }
         public DateTime CreatedAt { get; set; }
         public State State { get; set; }
-        public decimal Price { get; set; }
+        [RegularExpression(@"(?!^0*$)(?!^0*\.0*$)^\d{1,5}(\,\d{1,2})?$", ErrorMessage = "Price must be like 19,99")]
+        public string Price { get; set; }
         public List<OrderItem> Items { get; set; }
     }
 

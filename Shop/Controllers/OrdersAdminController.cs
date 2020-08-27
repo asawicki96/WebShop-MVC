@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.WebPages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -179,7 +180,7 @@ namespace Shop.Controllers
             }
 
             var order = db.Orders.Find(orderItem.OrderId);
-            order.Price = order.Price - orderItem.TotalPrice;
+            order.Price = (order.Price.AsDecimal() - orderItem.TotalPrice.AsDecimal()).ToString();
             db.Orders.Update(order);
 
             db.Items.Remove(orderItem);

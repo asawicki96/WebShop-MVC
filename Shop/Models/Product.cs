@@ -18,8 +18,8 @@ namespace Shop.Models
         [StringLength(100)]
         public string Image { get; set; }
 
-        [Range(0, 999.99)]
-        public decimal Price { get; set; }
+        [RegularExpression(@"(?!^0*$)(?!^0*\.0*$)^\d{1,5}(\,\d{1,2})?$" , ErrorMessage ="Price must be like 19,99")]
+        public string Price { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
 

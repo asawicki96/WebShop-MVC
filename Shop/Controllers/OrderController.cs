@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.WebPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shop.DAL;
@@ -25,7 +26,7 @@ namespace Shop.Controllers
             ViewBag.cart = cart;
             if (cart != null && cart.Count > 0)
             {
-                ViewBag.total = cart.Sum(item => item.Product.Price);
+                ViewBag.total = cart.Sum(item => item.Product.Price.AsDecimal());
                 return View();
             }
             else
@@ -44,7 +45,7 @@ namespace Shop.Controllers
                 order.CreatedAt = DateTime.Now;
 
                 var cart = CartManager.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
-                order.Price = cart.Sum(item => item.Product.Price);
+                order.Price = cart.Sum(item => item.Product.Price.AsDecimal()).ToString();
 
                 db.Orders.Add(order);
                 db.SaveChanges();

@@ -61,7 +61,7 @@ namespace Shop.DAL
                     Description = "Gloves description",
                     Image = "gloves.png",
                     CreatedAt = DateTime.Now,
-                    Price = 120,
+                    Price = "120,99",
                     IsActive = true
                 },
                 new Product()
@@ -72,7 +72,7 @@ namespace Shop.DAL
                     Description = "T-shirt description",
                     Image = "t-shirt.png",
                     CreatedAt = DateTime.Now,
-                    Price = 60,
+                    Price = "60,99",
                     IsActive = true
                 },
                 new Product()
@@ -83,7 +83,7 @@ namespace Shop.DAL
                     Description = "trousers description",
                     Image = "trousers.png",
                     CreatedAt = DateTime.Now,
-                    Price = 290,
+                    Price = "290,99",
                     IsActive = true
                 },
                 new Product()
@@ -94,7 +94,7 @@ namespace Shop.DAL
                     Description = "band description",
                     Image = "miband.png",
                     CreatedAt = DateTime.Now,
-                    Price = 300,
+                    Price = "300,00",
                     IsActive = true
                 }
             };

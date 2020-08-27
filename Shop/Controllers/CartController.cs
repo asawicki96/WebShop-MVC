@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Shop.Infrastructrue;
 using Shop.Models;
 using Shop.DAL;
+using System.Web.WebPages;
 
 namespace Shop.Controllers
 {
@@ -23,7 +24,7 @@ namespace Shop.Controllers
             ViewBag.cart = cart;
             if(cart != null)
             {
-                ViewBag.total = cart.Sum(item => item.Product.Price);
+                ViewBag.total = cart.Sum(item => item.Product.Price.AsDecimal());
             }
             return View();
         }

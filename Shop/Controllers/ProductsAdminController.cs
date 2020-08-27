@@ -125,7 +125,7 @@ namespace Shop.Controllers
             {
                 var old_product = db.Products.Find(id);
                 product.CreatedAt = old_product.CreatedAt;
-                product.Price = product.Price.ToString().AsDecimal();
+  
                 if (product.File != null && product.File.Length > 0)
                 {
 

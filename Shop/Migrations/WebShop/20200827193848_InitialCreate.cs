@@ -37,7 +37,7 @@ namespace Shop.Migrations.WebShop
                     Comment = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     State = table.Column<int>(nullable: false),
-                    Price = table.Column<decimal>(nullable: false)
+                    Price = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,7 +54,7 @@ namespace Shop.Migrations.WebShop
                     CategoryId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Image = table.Column<string>(maxLength: 100, nullable: true),
-                    Price = table.Column<decimal>(nullable: false),
+                    Price = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false)
                 },
@@ -78,7 +78,7 @@ namespace Shop.Migrations.WebShop
                     OrderId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    TotalPrice = table.Column<decimal>(nullable: false)
+                    TotalPrice = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,10 +114,10 @@ namespace Shop.Migrations.WebShop
                 columns: new[] { "ProductId", "CategoryId", "CreatedAt", "Description", "Image", "IsActive", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 2, 1, new DateTime(2020, 8, 27, 19, 40, 44, 316, DateTimeKind.Local).AddTicks(6265), "Gloves description", "gloves.png", true, "Gloves Everlast XL", 120m },
-                    { 3, 1, new DateTime(2020, 8, 27, 19, 40, 44, 320, DateTimeKind.Local).AddTicks(2927), "T-shirt description", "t-shirt.png", true, "T-shirt Everlast XL", 60m },
-                    { 4, 1, new DateTime(2020, 8, 27, 19, 40, 44, 320, DateTimeKind.Local).AddTicks(3005), "trousers description", "trousers.png", true, "Adidas trousers", 290m },
-                    { 5, 1, new DateTime(2020, 8, 27, 19, 40, 44, 320, DateTimeKind.Local).AddTicks(3014), "band description", "miband.png", true, "Mi Band", 300m }
+                    { 2, 1, new DateTime(2020, 8, 27, 21, 38, 47, 864, DateTimeKind.Local).AddTicks(3531), "Gloves description", "gloves.png", true, "Gloves Everlast XL", "120" },
+                    { 3, 1, new DateTime(2020, 8, 27, 21, 38, 47, 868, DateTimeKind.Local).AddTicks(5345), "T-shirt description", "t-shirt.png", true, "T-shirt Everlast XL", "60" },
+                    { 4, 1, new DateTime(2020, 8, 27, 21, 38, 47, 868, DateTimeKind.Local).AddTicks(5419), "trousers description", "trousers.png", true, "Adidas trousers", "290" },
+                    { 5, 1, new DateTime(2020, 8, 27, 21, 38, 47, 868, DateTimeKind.Local).AddTicks(5427), "band description", "miband.png", true, "Mi Band", "300" }
                 });
 
             migrationBuilder.CreateIndex(

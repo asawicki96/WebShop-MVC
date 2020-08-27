@@ -123,8 +123,8 @@ namespace Shop.Migrations.WebShop
                         .HasColumnType("nvarchar(6)")
                         .HasMaxLength(6);
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -150,8 +150,8 @@ namespace Shop.Migrations.WebShop
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("TotalPrice")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderItemId");
 
@@ -190,8 +190,8 @@ namespace Shop.Migrations.WebShop
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
 
@@ -204,45 +204,45 @@ namespace Shop.Migrations.WebShop
                         {
                             ProductId = 2,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2020, 8, 27, 19, 40, 44, 316, DateTimeKind.Local).AddTicks(6265),
+                            CreatedAt = new DateTime(2020, 8, 27, 21, 38, 47, 864, DateTimeKind.Local).AddTicks(3531),
                             Description = "Gloves description",
                             Image = "gloves.png",
                             IsActive = true,
                             Name = "Gloves Everlast XL",
-                            Price = 120m
+                            Price = "120"
                         },
                         new
                         {
                             ProductId = 3,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2020, 8, 27, 19, 40, 44, 320, DateTimeKind.Local).AddTicks(2927),
+                            CreatedAt = new DateTime(2020, 8, 27, 21, 38, 47, 868, DateTimeKind.Local).AddTicks(5345),
                             Description = "T-shirt description",
                             Image = "t-shirt.png",
                             IsActive = true,
                             Name = "T-shirt Everlast XL",
-                            Price = 60m
+                            Price = "60"
                         },
                         new
                         {
                             ProductId = 4,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2020, 8, 27, 19, 40, 44, 320, DateTimeKind.Local).AddTicks(3005),
+                            CreatedAt = new DateTime(2020, 8, 27, 21, 38, 47, 868, DateTimeKind.Local).AddTicks(5419),
                             Description = "trousers description",
                             Image = "trousers.png",
                             IsActive = true,
                             Name = "Adidas trousers",
-                            Price = 290m
+                            Price = "290"
                         },
                         new
                         {
                             ProductId = 5,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2020, 8, 27, 19, 40, 44, 320, DateTimeKind.Local).AddTicks(3014),
+                            CreatedAt = new DateTime(2020, 8, 27, 21, 38, 47, 868, DateTimeKind.Local).AddTicks(5427),
                             Description = "band description",
                             Image = "miband.png",
                             IsActive = true,
                             Name = "Mi Band",
-                            Price = 300m
+                            Price = "300"
                         });
                 });
 

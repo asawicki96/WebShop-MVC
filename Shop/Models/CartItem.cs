@@ -8,6 +8,6 @@ namespace Shop.Models
     public class CartItem
     {
         public Product Product { get; set; }
-        public decimal Price { get; set; }
+        public string Price { get; set; }
     }
 }
