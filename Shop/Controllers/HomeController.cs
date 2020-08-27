@@ -15,7 +15,6 @@ namespace Shop.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private WebShopContext db = new WebShopContext();
 
         public HomeController(ILogger<HomeController> logger)
         {

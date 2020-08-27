@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Shop.Migrations;
 using System;
-using System.Data.Entity;
+
 
 namespace Shop.DAL
 {
-    internal class IdentityInistialiser : MigrateDatabaseToLatestVersion<WebShopContext, Configuration>
+    internal class IdentityInistialiser
     {
      
         public static void SeedUsers(UserManager<IdentityUser> userManager)

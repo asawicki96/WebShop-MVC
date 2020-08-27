@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,20 +6,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop.Models;
 using Shop.DAL;
-using System.Data.Entity.Migrations;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
-using Microsoft.Extensions.Hosting;
 using System.IO;
 using Shop.Infrastructrue;
 using Microsoft.AspNetCore.Authorization;
+using System.Web.WebPages;
 
 namespace Shop.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class ProductsAdminController : Controller
     {
-        private readonly WebShopContext db = new WebShopContext();
+        private readonly WebShopContext db;
+        public ProductsAdminController(WebShopContext _db)
+        {
+            db = _db;
+        }
 
         // GET: ProductsAdmin
         public IActionResult Index(int? pageNumber)
@@ -120,12 +120,12 @@ namespace Shop.Controllers
             {
                 return NotFound();
             }
-
+  
             if (ModelState.IsValid)
             {
                 var old_product = db.Products.Find(id);
                 product.CreatedAt = old_product.CreatedAt;
-
+                product.Price = product.Price.ToString().AsDecimal();
                 if (product.File != null && product.File.Length > 0)
                 {
 
@@ -144,9 +144,11 @@ namespace Shop.Controllers
                     product.Image = old_product.Image;
                 }
 
+                db.Entry(old_product).State = EntityState.Detached;
+
                 try
                 {
-                    db.Products.AddOrUpdate(product);
+                    db.Products.Update(product);
                     await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

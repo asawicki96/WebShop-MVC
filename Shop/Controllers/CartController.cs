@@ -12,7 +12,11 @@ namespace Shop.Controllers
 {
     public class CartController : Controller
     {
-        private WebShopContext db = new WebShopContext();
+        private readonly WebShopContext db;
+        public CartController(WebShopContext _db)
+        {
+            db = _db;
+        }
         public IActionResult Detail()
         {
             var cart = CartManager.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");

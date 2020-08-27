@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop.DAL;
 using Shop.Infrastructrue;
@@ -17,8 +14,11 @@ namespace Shop.Controllers
     [Authorize(Roles = "Administrator")]
     public class OrdersAdminController : Controller
     {
-        private readonly WebShopContext db = new WebShopContext();
-
+        private readonly WebShopContext db;
+        public OrdersAdminController(WebShopContext _db)
+        {
+            db = _db;
+        }
 
         // GET: OrdersAdmin
         public IActionResult Index(int? pageNumber)
@@ -39,7 +39,12 @@ namespace Shop.Controllers
             var order = db.Orders
                 .FirstOrDefault(m => m.OrderId == id);
             var items = db.Items.Where(i => i.OrderId == order.OrderId);
+           
             order.Items = items.ToList();
+            foreach(OrderItem item in order.Items)
+            {
+                item.Product = db.Products.Find(item.ProductId);
+            }
 
             if (order == null)
             {
@@ -76,7 +81,7 @@ namespace Shop.Controllers
             db.Items.Add(item);
 
             order.Price = order.Price + item.TotalPrice;
-            db.Orders.AddOrUpdate(order);
+            db.Orders.Update(order);
             db.SaveChanges();
             return RedirectToAction("Details", new { id = orderId });
         }
@@ -137,9 +142,10 @@ namespace Shop.Controllers
             {
                 var old_order = db.Orders.Find(id);
                 order.CreatedAt = old_order.CreatedAt;
+                db.Entry(old_order).State = EntityState.Detached;
                 try
                 {
-                    db.Orders.AddOrUpdate(order);
+                    db.Orders.Update(order);
                     await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -174,7 +180,7 @@ namespace Shop.Controllers
 
             var order = db.Orders.Find(orderItem.OrderId);
             order.Price = order.Price - orderItem.TotalPrice;
-            db.Orders.AddOrUpdate(order);
+            db.Orders.Update(order);
 
             db.Items.Remove(orderItem);
             await db.SaveChangesAsync();

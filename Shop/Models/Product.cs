@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace Shop.Models
 {
@@ -19,12 +17,15 @@ namespace Shop.Models
         public string Description { get; set; }
         [StringLength(100)]
         public string Image { get; set; }
+
+        [Range(0, 999.99)]
         public decimal Price { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
 
         [JsonIgnore]
         public virtual Category Category { get; set; }
+        [NotMapped]
         public virtual IFormFile File { get; set; }
 
     }

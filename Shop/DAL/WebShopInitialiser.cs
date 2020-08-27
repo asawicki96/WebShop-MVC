@@ -1,18 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Shop.Migrations;
-using Shop.Models;
+﻿using Shop.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Shop.DAL
 {
-    public class WebShopInitialiser : MigrateDatabaseToLatestVersion<WebShopContext, Configuration>
+    public static class WebShopInitialiser
     {
-        public static void SeedWebShopData(WebShopContext context)
+        public static void SeedWebShopData(this ModelBuilder modelBuilder)
         {
             var categories = new List<Category>
             {
@@ -53,8 +49,7 @@ namespace Shop.DAL
                 }
             };
 
-            categories.ForEach(c => context.Categories.AddOrUpdate(c));
-            context.SaveChanges();
+            categories.ForEach(c => modelBuilder.Entity<Category>().HasData(c));
 
             var products = new List<Product>
             {
@@ -103,10 +98,7 @@ namespace Shop.DAL
                     IsActive = true
                 }
             };
-            products.ForEach(p => context.Products.AddOrUpdate(p));
-            context.SaveChanges();
-
-
+            products.ForEach(p => modelBuilder.Entity<Product>().HasData(p));
         }
     }
 }

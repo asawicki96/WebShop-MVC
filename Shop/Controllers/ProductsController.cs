@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shop.DAL;
 using Shop.Models;
 using Shop.ViewModels;
 using Shop.Infrastructrue;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Controllers
 {
     public class ProductsController : Controller
     {
-        private WebShopContext db = new WebShopContext();
+        private readonly WebShopContext db;
+        public ProductsController(WebShopContext _db)
+        {
+            db = _db;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -22,7 +25,7 @@ namespace Shop.Controllers
         public IActionResult List(string? categoryName, string? searchQuery, int? pageNumber)
         {
             int pageSize = 6;
-            var categories = db.Categories.ToList();
+            var categories = this.db.Categories.ToList();
             var viewModel = new HomeViewModel 
             {
                 Categories = categories

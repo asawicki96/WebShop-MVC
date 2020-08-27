@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Shop.Models
@@ -18,6 +19,8 @@ namespace Shop.Models
 
         [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
+        
+        [NotMapped]
         public virtual IFormFile IconFile { get; set; }
 
     }

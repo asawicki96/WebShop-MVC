@@ -1,20 +1,13 @@
-﻿using System.Data.Entity;
-using Shop.Models;
-using System.Data.Entity.ModelConfiguration.Conventions;
+﻿using Shop.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shop.DAL
 {
     public class WebShopContext : DbContext
     {
-        public WebShopContext(): base("WebShopContext")
+        public WebShopContext(DbContextOptions<WebShopContext> options): base(options)
         {
 
-        }
-
-        static WebShopContext()
-        {
-            Database.SetInitializer<WebShopContext>(new WebShopInitialiser());
-            Database.SetInitializer<WebShopContext>(new IdentityInistialiser());
         }
 
         public DbSet<Product> Products { get; set; }
@@ -22,10 +15,13 @@ namespace Shop.DAL
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> Items { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.SeedWebShopData();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
 
         }
     }

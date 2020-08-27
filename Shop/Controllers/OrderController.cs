@@ -13,7 +13,11 @@ namespace Shop.Controllers
 
     public class OrderController : Controller
     {
-        private readonly WebShopContext db = new WebShopContext();
+        private readonly WebShopContext db;
+        public OrderController(WebShopContext _db)
+        {
+            db = _db;
+        }
         // GET: OrderController/Create
         public ActionResult Create()
         {
@@ -43,6 +47,7 @@ namespace Shop.Controllers
                 order.Price = cart.Sum(item => item.Product.Price);
 
                 db.Orders.Add(order);
+                db.SaveChanges();
 
                 foreach (CartItem item in cart)
                 {

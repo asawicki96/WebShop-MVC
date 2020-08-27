@@ -29,9 +29,15 @@ namespace Shop
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<IdentityWebShopContext>();
 
+           
+            services.AddDbContext<WebShopContext>(cfg =>
+            {
+                cfg.UseSqlServer(Configuration.GetConnectionString("WebShopContext"));
+            });
+
             services.AddDbContext<IdentityWebShopContext>(cfg =>
             {
-                cfg.UseSqlServer(Configuration.GetConnectionString("IdentityWebShopContext"));
+                cfg.UseSqlServer(Configuration.GetConnectionString("WebShopContext"));
             });
 
             services.AddSession(options =>

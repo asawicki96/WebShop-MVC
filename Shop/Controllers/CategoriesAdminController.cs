@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Data.Entity;
 using Shop.DAL;
 using Shop.Models;
-using System.Data.Entity.Infrastructure;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class CategoriesAdminController : Controller
     {
-        private readonly WebShopContext db = new WebShopContext();
+        private readonly WebShopContext db;
+        public CategoriesAdminController(WebShopContext _db)
+        {
+            db = _db;
+        }
 
         // GET: Categories
         public async Task<IActionResult> Index()
@@ -109,6 +109,7 @@ namespace Shop.Controllers
             if (ModelState.IsValid)
             {
                 var old_category = db.Categories.Find(id);
+                
                 if (category.IconFile != null && category.IconFile.Length > 0)
                 {
                     var fileName = old_category.Icon;
@@ -126,23 +127,10 @@ namespace Shop.Controllers
                     category.Icon = old_category.Icon;
                 }
 
-                try
-                {
-                    db.Categories.AddOrUpdate(category);
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.CategoryId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                db.Entry(old_category).State = EntityState.Detached;
+                db.Categories.Update(category);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
             return View(category);
         }
