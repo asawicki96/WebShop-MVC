@@ -24,7 +24,7 @@ namespace Shop.Controllers
         // GET: OrdersAdmin
         public IActionResult Index(int? pageNumber)
         {
-            var pageSize = 10;
+            var pageSize = 6;
             var orders = db.Orders.OrderByDescending(o => o.CreatedAt);
             return View(PaginatedList<Order>.Create(orders.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
@@ -81,7 +81,7 @@ namespace Shop.Controllers
 
             db.Items.Add(item);
 
-            order.Price = order.Price + item.TotalPrice;
+            order.Price = (order.Price.AsDecimal() + item.TotalPrice.AsDecimal()).ToString();
             db.Orders.Update(order);
             db.SaveChanges();
             return RedirectToAction("Details", new { id = orderId });

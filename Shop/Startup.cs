@@ -74,7 +74,7 @@ namespace Shop
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
 
                 options.LoginPath = "/Admin/Login";
                 options.AccessDeniedPath = "/Admin/Login";

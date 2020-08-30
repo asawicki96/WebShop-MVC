@@ -78,12 +78,12 @@
         @{ var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
             var nextDisabled = !Model.HasNextPage ? "disabled" : ""; }
 
-        <a asp-action="List"
+        <a asp-action="Index"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="btn btn-default @prevDisabled">
             Previous
         </a>
-        <a asp-action="List"
+        <a asp-action="Index"
            asp-route-pageNumber="@(Model.PageIndex + 1)"
            class="btn btn-default @nextDisabled">
             Next

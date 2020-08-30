@@ -25,7 +25,7 @@ namespace Shop.Controllers
         // GET: ProductsAdmin
         public IActionResult Index(int? pageNumber)
         {
-            var pageSize = 10;
+            var pageSize = 6;
             var shopContext = db.Products.Include(p => p.Category).OrderByDescending(p => p.CreatedAt);
             ViewBag.model = new Product();
             return View(PaginatedList<Product>.Create(shopContext.AsNoTracking(), pageNumber ?? 1, pageSize));
